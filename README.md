@@ -1,3 +1,3 @@
 # Brainly
 
-This is a simple second Brain application 
+This is a simple second Brain application - backend
