@@ -18,10 +18,14 @@ app.post("/signup" , async(req, res)=>{
     console.log(hashedPassword);
     
     try{
-        const user = await UserModel.create({
+        const user = await UserModel.findOne({username})
+        if(user){
+            alert("User Already Exist try another email")
+        }
+        await UserModel.create({
+            name,
             username,
-            password : hashedPassword,
-            name
+            password
         })
         res.json({
             message : "user signed up"
