@@ -67,12 +67,13 @@ app.post("/signin", async(req, res)=>{
 })
 
 app.post("/content", userMiddleware, async(req, res)=>{
-    const { title, link, type } = req.body;
+    const { title, link, type, text } = req.body;
     try{
         const content = await contentModel.create({
             title,
             type,
             link,
+            text,
             tags : [],
             //@ts-ignore
             userId : req.userId
@@ -101,7 +102,7 @@ app.get("/content", userMiddleware, async(req, res)=>{
     })
     }catch(error){
         res.status(403).json({
-            message : "user not found"
+            message : "server is down"
         })
     }
 })

@@ -75,12 +75,13 @@ app.post("/signin", (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     }
 }));
 app.post("/content", middleware_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { title, link, type } = req.body;
+    const { title, link, type, text } = req.body;
     try {
         const content = yield db_1.contentModel.create({
             title,
             type,
             link,
+            text,
             tags: [],
             //@ts-ignore
             userId: req.userId
@@ -108,7 +109,7 @@ app.get("/content", middleware_1.default, (req, res) => __awaiter(void 0, void 0
     }
     catch (error) {
         res.status(403).json({
-            message: "user not found"
+            message: "server is down"
         });
     }
 }));
