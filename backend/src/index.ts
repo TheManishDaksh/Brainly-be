@@ -18,14 +18,10 @@ app.post("/signup" , async(req, res)=>{
     console.log(hashedPassword);
     
     try{
-        const user = await UserModel.findOne({username})
-        if(user){
-            alert("User Already Exist try another email")
-        }
         await UserModel.create({
             name,
             username,
-            password
+            password : hashedPassword
         })
         res.json({
             message : "user signed up"
@@ -44,7 +40,7 @@ app.post("/signin", async(req, res)=>{
         const user = await UserModel.findOne({username})
         
         if(!user){
-            res.status(403).json({
+            res.status(401).json({
                 message : "User not found please signup first"
             })
             return; 
@@ -52,7 +48,7 @@ app.post("/signin", async(req, res)=>{
            
         const comparePassword = bcrypt.compare(password, user?.password!)
         if(!comparePassword){
-            res.status(403).json({
+            res.status(411).json({
                 message : "password is incorrect"
             })
         }
@@ -64,7 +60,7 @@ app.post("/signin", async(req, res)=>{
             token
         })
     }catch(error){
-        res.status(411).json({
+        res.status(403).json({
             message : "incorrect credentials"
         })
     }

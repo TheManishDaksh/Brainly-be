@@ -29,10 +29,10 @@ app.post("/signup", (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     const hashedPassword = yield bcrypt_1.default.hash(password, 10);
     console.log(hashedPassword);
     try {
-        const user = yield db_1.UserModel.create({
+        yield db_1.UserModel.create({
+            name,
             username,
-            password: hashedPassword,
-            name
+            password: hashedPassword
         });
         res.json({
             message: "user signed up"
@@ -49,14 +49,14 @@ app.post("/signin", (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     try {
         const user = yield db_1.UserModel.findOne({ username });
         if (!user) {
-            res.status(403).json({
+            res.status(401).json({
                 message: "User not found please signup first"
             });
             return;
         }
         const comparePassword = bcrypt_1.default.compare(password, user === null || user === void 0 ? void 0 : user.password);
         if (!comparePassword) {
-            res.status(403).json({
+            res.status(411).json({
                 message: "password is incorrect"
             });
         }
@@ -69,7 +69,7 @@ app.post("/signin", (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         });
     }
     catch (error) {
-        res.status(411).json({
+        res.status(403).json({
             message: "incorrect credentials"
         });
     }
@@ -178,7 +178,7 @@ app.post("/brain/share", middleware_1.default, (req, res) => __awaiter(void 0, v
         });
     }
 }));
-app.get("/:share", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.get("/brain/:share", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const hash = req.params.share;
     try {
         const link = yield db_1.linkModel.findOne({
