@@ -15,7 +15,7 @@ const contentShema = new Schema({
     link : String,
     text : String,
     type : String,
-    tags : [{type:mongoose.Types.ObjectId, ref:"Tag"}],
+    tags : [String],
     userId : {type:mongoose.Types.ObjectId, ref:"user", required:true}
 })
 

@@ -51,7 +51,7 @@ const contentShema = new mongoose_1.Schema({
     link: String,
     text: String,
     type: String,
-    tags: [{ type: mongoose_1.default.Types.ObjectId, ref: "Tag" }],
+    tags: [String],
     userId: { type: mongoose_1.default.Types.ObjectId, ref: "user", required: true }
 });
 const linkSchema = new mongoose_1.Schema({

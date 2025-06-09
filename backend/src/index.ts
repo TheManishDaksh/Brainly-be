@@ -67,14 +67,14 @@ app.post("/signin", async(req, res)=>{
 })
 
 app.post("/content", userMiddleware, async(req, res)=>{
-    const { title, link, type, text } = req.body;
+    const { title, link, type, text, tags } = req.body;
     try{
         const content = await contentModel.create({
             title,
             type,
             link,
             text,
-            tags : [],
+            tags,   
             //@ts-ignore
             userId : req.userId
         })
@@ -116,7 +116,7 @@ app.delete("/content", userMiddleware, async(req, res)=>{
         userId,
         contentId
     })
-    res.json({
+    res.status(200).json({
         message : "deleted"
     })
     }catch(error){
