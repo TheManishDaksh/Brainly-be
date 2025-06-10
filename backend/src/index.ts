@@ -198,8 +198,8 @@ app.post("/brain/share", userMiddleware, async(req, res)=>{
 
 })
 
-app.get("/brain/:share", async(req, res)=>{
-    const hash = req.params.share;
+app.get("/brain/:hash", async(req, res)=>{
+    const hash = req.params.hash;
 
     try{
         const link = await linkModel.findOne({

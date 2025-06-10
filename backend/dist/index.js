@@ -205,8 +205,8 @@ app.post("/brain/share", middleware_1.default, (req, res) => __awaiter(void 0, v
         });
     }
 }));
-app.get("/brain/:share", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const hash = req.params.share;
+app.get("/brain/:hash", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const hash = req.params.hash;
     try {
         const link = yield db_1.linkModel.findOne({
             hash
