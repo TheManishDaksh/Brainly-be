@@ -126,6 +126,32 @@ app.delete("/content/:id", userMiddleware, async(req, res)=>{
     }
 })
 
+app.put("/content/:id", userMiddleware, async(req, res)=>{
+    //@ts-ignore
+    const userId = req.userId;
+    const contentId = req.params.id;
+    const { title, text, tags} = req.body;
+    try{
+        await contentModel.updateOne({
+        userId,
+        _id : contentId
+    },{
+        $set:{
+            title,
+            text,
+            tags
+        }
+    })
+    res.status(200).json({
+        message : "updated"
+    })
+    }catch(error){
+        res.status(411).json({
+            message : "can't be deleted"
+        })
+    }
+})
+
 app.post("/brain/share", userMiddleware, async(req, res)=>{
     const share = req.body.share;
     try {
@@ -136,7 +162,7 @@ app.post("/brain/share", userMiddleware, async(req, res)=>{
     })
     if(existingShare){
         res.json({
-            haash : existingShare.hash
+            hash : existingShare.hash
         })
         return;
     }
@@ -151,7 +177,7 @@ app.post("/brain/share", userMiddleware, async(req, res)=>{
             hash
         })
     }catch(error){
-        res.status(403).json({
+        res.status(401).json({
             message : "hash can't be generated"
         })
     }
@@ -195,7 +221,7 @@ app.get("/brain/:share", async(req, res)=>{
             content : content
         })
     }catch(error){
-        res.status(411).json({
+        res.status(411).json({  
             message : "link is not valid"
         })
     }

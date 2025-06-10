@@ -132,6 +132,32 @@ app.delete("/content/:id", middleware_1.default, (req, res) => __awaiter(void 0,
         });
     }
 }));
+app.put("/content/:id", middleware_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    //@ts-ignore
+    const userId = req.userId;
+    const contentId = req.params.id;
+    const { title, text, tags } = req.body;
+    try {
+        yield db_1.contentModel.updateOne({
+            userId,
+            _id: contentId
+        }, {
+            $set: {
+                title,
+                text,
+                tags
+            }
+        });
+        res.status(200).json({
+            message: "updated"
+        });
+    }
+    catch (error) {
+        res.status(411).json({
+            message: "can't be deleted"
+        });
+    }
+}));
 app.post("/brain/share", middleware_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const share = req.body.share;
     try {
@@ -142,7 +168,7 @@ app.post("/brain/share", middleware_1.default, (req, res) => __awaiter(void 0, v
             });
             if (existingShare) {
                 res.json({
-                    haash: existingShare.hash
+                    hash: existingShare.hash
                 });
                 return;
             }
@@ -158,7 +184,7 @@ app.post("/brain/share", middleware_1.default, (req, res) => __awaiter(void 0, v
                 });
             }
             catch (error) {
-                res.status(403).json({
+                res.status(401).json({
                     message: "hash can't be generated"
                 });
             }
