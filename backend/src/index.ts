@@ -107,10 +107,10 @@ app.get("/content", userMiddleware, async(req, res)=>{
     }
 })
 
-app.delete("/content", userMiddleware, async(req, res)=>{
+app.delete("/content/:id", userMiddleware, async(req, res)=>{
     //@ts-ignore
     const userId = req.userId;
-    const contentId = req.body.contentId;
+    const contentId = req.query.id;
     try{
         await contentModel.deleteOne({
         userId,

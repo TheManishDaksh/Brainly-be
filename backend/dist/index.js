@@ -113,10 +113,10 @@ app.get("/content", middleware_1.default, (req, res) => __awaiter(void 0, void 0
         });
     }
 }));
-app.delete("/content", middleware_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.delete("/content/:id", middleware_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     //@ts-ignore
     const userId = req.userId;
-    const contentId = req.body.contentId;
+    const contentId = req.query.id;
     try {
         yield db_1.contentModel.deleteOne({
             userId,
