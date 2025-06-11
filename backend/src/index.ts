@@ -111,6 +111,23 @@ app.get("/content", userMiddleware, async(req, res)=>{
     }
 })
 
+app.get("/search", userMiddleware, async(req, res)=>{
+    
+    try{
+            const query = req.query.query;
+        const content = await contentModel.find({
+        title : query 
+    })
+    res.json({
+        content
+    })
+    }catch(error){
+        res.status(403).json({
+            message : "server is down"
+        })
+    }
+})
+
 app.delete("/content/:id", userMiddleware, async(req, res)=>{
     //@ts-ignore
     const userId = req.userId;
