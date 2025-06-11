@@ -97,8 +97,12 @@ app.get("/content", userMiddleware, async(req, res)=>{
         const content = await contentModel.find({
         userId 
     })
+    const user = await UserModel.findOne({
+        _id : userId
+    })
     res.json({
-        content
+        content,
+        username : user?.username
     })
     }catch(error){
         res.status(403).json({
@@ -110,11 +114,11 @@ app.get("/content", userMiddleware, async(req, res)=>{
 app.delete("/content/:id", userMiddleware, async(req, res)=>{
     //@ts-ignore
     const userId = req.userId;
-    const contentId = req.query.id;
+    const contentId = req.params.id;
     try{
         await contentModel.deleteOne({
         userId,
-        contentId
+        _id : contentId
     })
     res.status(200).json({
         message : "deleted"
@@ -213,7 +217,7 @@ app.get("/brain/:hash", async(req, res)=>{
         const user = await UserModel.findOne({
             _id : link?.userId
         })
-        const content = await contentModel.findOne({
+        const content = await contentModel.find({
             userId : link?.userId
         })
         res.json({

@@ -103,8 +103,12 @@ app.get("/content", middleware_1.default, (req, res) => __awaiter(void 0, void 0
         const content = yield db_1.contentModel.find({
             userId
         });
+        const user = yield db_1.UserModel.findOne({
+            _id: userId
+        });
         res.json({
-            content
+            content,
+            username: user === null || user === void 0 ? void 0 : user.username
         });
     }
     catch (error) {
@@ -116,11 +120,11 @@ app.get("/content", middleware_1.default, (req, res) => __awaiter(void 0, void 0
 app.delete("/content/:id", middleware_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     //@ts-ignore
     const userId = req.userId;
-    const contentId = req.query.id;
+    const contentId = req.params.id;
     try {
         yield db_1.contentModel.deleteOne({
             userId,
-            contentId
+            _id: contentId
         });
         res.status(200).json({
             message: "deleted"
@@ -219,7 +223,7 @@ app.get("/brain/:hash", (req, res) => __awaiter(void 0, void 0, void 0, function
         const user = yield db_1.UserModel.findOne({
             _id: link === null || link === void 0 ? void 0 : link.userId
         });
-        const content = yield db_1.contentModel.findOne({
+        const content = yield db_1.contentModel.find({
             userId: link === null || link === void 0 ? void 0 : link.userId
         });
         res.json({
