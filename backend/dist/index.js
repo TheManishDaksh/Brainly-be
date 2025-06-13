@@ -120,12 +120,11 @@ app.get("/content", middleware_1.default, (req, res) => __awaiter(void 0, void 0
 app.get("/search", middleware_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const query = req.query.query;
-        console.log(query);
-        const content = yield db_1.contentModel.find({
+        const result = yield db_1.contentModel.find({
             title: query
         });
         res.json({
-            content
+            content: result
         });
     }
     catch (error) {
